@@ -1,0 +1,32 @@
+body{
+	
+	background:url(../images/bk_login.jpg) no-repeat center center fixed;
+	background-size:cover;
+}
+
+.main-section{
+	margin:0 auto;
+	margin-top: 150px;
+	border:2px solid #222222;
+	
+}
+
+.modal-content{
+	background-color:#011123;
+	opacity: .80;
+	padding:0px 20px;
+}
+.user-img img{
+	height:100px;
+	width:250px;
+	
+}
+.form-group input{
+	margin-top:20px;
+	background: white;
+	opacity: 1.0;
+}
+
+.form-group button{
+	margin-top:20px;
+}

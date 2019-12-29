@@ -1,0 +1,57 @@
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/security
+        https://www.springframework.org/schema/security/spring-security.xsd">
+
+    <context:component-scan base-package="ddv.com.serviceManagerBackEnd"/>
+ 
+ 
+   
+    <http pattern="/resources/**" security="none"/>
+	
+	
+	
+	<http>
+	    <!-- User area acces -->
+	    <intercept-url pattern="/**" access="permitAll" />
+	    
+	    <!-- Admin area acces -->
+		<intercept-url pattern="/adminArea/**" access="hasAuthority('ADMIN') or hasAuthority('MANAGER')" />
+		<!-- Admin area acces -->
+		<intercept-url pattern="/managerArea/**" access="hasAuthority('MANAGER')" />
+        
+        <!-- Acces for all -->
+        <intercept-url pattern="/**" access="permitAll" />
+        <form-login  login-page="/login" />
+        
+        <session-management invalid-session-url="/login">
+             <concurrency-control expired-url="/login" />
+             
+        </session-management>
+		<logout />
+		
+	</http>
+	
+	
+
+
+	<authentication-manager>
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="dataSource" 
+			
+			users-by-username-query="select user_nickname, user_password, user_active from service_users where  user_nickname = ?"
+			authorities-by-username-query="select user_nickname, user_role from service_users where user_nickname = ?"
+			
+			/>
+		</authentication-provider>
+	</authentication-manager>
+
+
+</beans:beans>

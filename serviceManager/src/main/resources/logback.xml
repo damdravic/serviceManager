@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  
+<configuration>
+
+  <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+       <Pattern>%-5level %msg %d{HH:mm:ss.SSS} %logger{36}  %n</Pattern> 
+      </encoder> 
+  </appender>
+  
+  <logger name="ddv.com" level="DEBUG" additivity ="true">
+    <appender-ref ref="consoleAppender"/>
+  </logger>
+  
+  
+  
+  <root level="INFO">
+     <appender-ref ref="consoleAppender"/>
+  </root>
+
+
+
+</configuration>
