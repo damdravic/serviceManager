@@ -50,11 +50,7 @@
                 </div>
              </div>
              <sf:hidden path="id" />
-         
-              
-            
-          
-          <sf:hidden path="active" />
+             <sf:hidden path="active" />
           
           
           

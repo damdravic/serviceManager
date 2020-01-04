@@ -100,6 +100,15 @@
 				<c:if test="${requestUserManagement == true }">
 				 <%@ include file="userManagement.jsp" %>
 				</c:if>
+				
+				<c:if test="${carbrandrequest == true }">
+				<%@ include file="usersarea/carBrandManagement.jsp" %>
+				</c:if>
+                   
+                   <c:if test="${carmodelrequest == true }">
+				<%@ include file="usersarea/carModelManagement.jsp" %>
+				</c:if>
+
 
 			</div>
 			<!-- /.container-fluid -->

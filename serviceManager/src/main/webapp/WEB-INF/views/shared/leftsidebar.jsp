@@ -51,7 +51,7 @@
 
 	</security:authorize>
 
-	<security:authorize access="hasAuthority('ADMIN') or hasAuthority('MANAGER')">
+	<security:authorize access=" hasAuthority('MANAGER')">
 		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
 			href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
 			aria-haspopup="true" aria-expanded="false"> <span>Management
@@ -62,6 +62,7 @@
 				  <a class="dropdown-item" href="${contextRoot}/adminArea/workshopManagement">Workshops</a>
 				  <a class="dropdown-item" href="${contextRoot}/adminArea/insurersManagement">Insurers</a>
 				 <a class="dropdown-item" href="${contextRoot}/adminArea/usersManagement">Users</a>
+				 <a class="dropdown-item" href="${contextRoot}/adminArea/carBrand">Cars brand</a>
 
 			</div></li>
 

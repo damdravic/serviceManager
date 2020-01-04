@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<c:set var="clp" value="${param.carLicencePlate}" />
 <c:choose>
 <c:when test="${not empty id}">
 <c:url var="action" value="/Update" context="${contextRoot}"/>
@@ -19,6 +20,10 @@
 	var casemodal = document.getElementById("casemodal");
 
 	if(casemodal.style.display === 'none'){
+		
+		var x =document.getElementById("carLicencePlate").value;
+		document.getElementById("licencePlate").value = x;
+		
 		casemodal.style.display = 'block';
 	}
   }
@@ -40,7 +45,7 @@
 							<label for="name" class="col-sm-3 col-form-label "> Car License Plate  </label>
 							<div class="col-sm-9">
 								<sf:input type="text" class="form-control" id="carLicencePlate" path="car"
-									placeholder="License Plate" />
+									name="carLicencePlate"    value="${clp}"  placeholder="License Plate" />
 							</div>
 						</div>
 						
@@ -132,7 +137,7 @@ $(document).ready(function(){
 	
 	 
 	 $("#carLicencePlate").blur(function(){
-		 console.log('your message xxx');
+		
 	
 			var varname = 'carLicencePlate';
 			var varvalue = $("#carLicencePlate").val();
@@ -149,16 +154,9 @@ $(document).ready(function(){
 		    	 if(data =="Car not exist"){
 		    		 $("#ifcarnotexist").show();
 		    	 }
+
 		    	 
-		    	 
-		    	 
-		    	 
-		    	 
-		    	 
-		    	 
-		    	 
-		    	 
-		    	 $("#demo").html(data);
+		
 		     }
 		 });
 	 });

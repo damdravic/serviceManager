@@ -1,15 +1,5 @@
 
 
-CREATE TABLE case( 
-case_id int NOT NULL AUTO_INCREMENT, 
-car_id int, 
-workshop_id int,
-active boolean, 
-FOREIGN KEY(car_id) REFERENCES car(car_id) , 
-FOREIGN KEY (workshop_id) REFERENCES workshop(workshop_id), 
-PRIMARY KEY (case_id) 
-) ;
-
 
 CREATE TABLE service_users(
 user_id int NOT NULL AUTO_INCREMENT,
@@ -45,8 +35,31 @@ insurer_active boolean,
 PRIMARY KEY(insurer_id)
 );
 
+CREATE TABLE car_brand(
+car_brand_id int NOT NULL AUTO_INCREMENT,
+car_brand_name varchar(20),
+car_brand_active boolean,
+PRIMARY KEY(car_brand_id)
+);
 
 
+CREATE TABLE car_model(
+car_model_id int NOT NULL AUTO_INCREMENT,
+car_model_name varchar(20);
+car_model_active boolean,
+car_model_brand int,
+PRIMARY KEY(car_model_id),
+FOREIGN KEY(car_model_brand) REFERENCES car_brand(car_brand_id)
+);
+
+CREATE TABLE car (
+  car_id int(11) NOT NULL AUTO_INCREMENT,
+  licence_plate varchar(10) NOT NULL,
+  brand varchar(10) DEFAULT NULL,
+  model  varchar(10) DEFAULT NULL,
+  owner varchar(20) DEFAULT NULL,
+  active boolean NOT NULL
+);
 
 
 

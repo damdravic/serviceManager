@@ -39,6 +39,9 @@
 
 
 				<div class="card-body bg-light text-black">
+				
+					
+					
 					<!-- FORM ELEMENTS -->
 					<sf:form modelAttribute="car" action="${action}" methode="POST">
 						<div class="form-group row">
@@ -46,7 +49,7 @@
 								class="col-sm-3 col-form-label text-dark">License Plate</label>
 							<div class="col-sm-9">
 								<sf:input type="text" class="form-control text-uppercase"
-									path="licencePlate" id="licencePlate"
+									path="licencePlate" id="licencePlate" name="licencePlate"
 									placeholder="Enter Licence plate" />
 								<sf:errors path="licencePlate"
 									cssClass="form-text text-muted help-block" element="em" />
@@ -75,6 +78,15 @@
 							</div>
 						</div>
 
+                        <div class="form-group row">
+							<label for="model" class="col-sm-3 col-form-label text-dark">Owner</label>
+							<div class="col-sm-9">
+								<sf:input type="text" class="form-control text-capitalize"
+									id="model" path="owner" placeholder="Owner name" />
+								<em id="passwordHelpBlock" class="form-text text-muted">
+									Please enter owner name</em>
+							</div>
+						</div>
 
 
 						<div class="form-group row">

@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ddv.com.serviceManagerBackEnd.dao.CarBrandDAO;
 import ddv.com.serviceManagerBackEnd.dao.CarDAO;
+import ddv.com.serviceManagerBackEnd.dao.CarModelDAO;
 import ddv.com.serviceManagerBackEnd.dao.InsurerDAO;
 import ddv.com.serviceManagerBackEnd.dao.UserDAO;
 import ddv.com.serviceManagerBackEnd.dao.WorkshopDAO;
 import ddv.com.serviceManagerBackEnd.dto.Car;
+import ddv.com.serviceManagerBackEnd.dto.CarBrand;
 import ddv.com.serviceManagerBackEnd.dto.Insurer;
 import ddv.com.serviceManagerBackEnd.dto.User;
 import ddv.com.serviceManagerBackEnd.dto.Workshop;
@@ -30,7 +33,10 @@ public class JsonDataController {
 	private InsurerDAO insurerDAO;
 	@Autowired
 	private UserDAO userDAO;
-	
+	@Autowired
+	private CarBrandDAO carBrandDAO;
+	@Autowired
+	private CarModelDAO carModelDAO;
 
 	@RequestMapping("/all/workshop")
 	@ResponseBody
@@ -59,6 +65,13 @@ public class JsonDataController {
 		return carDAO.list();
 	}
 	
+	@RequestMapping("all/carBrand")
+	@ResponseBody
+	public List<CarBrand> getAllBrands(){
+		return carBrandDAO.list();
+	}
+	 
+	
 	/*
 	 * deleting methode
 	 * 2 pathVariables id and tablename
@@ -84,6 +97,15 @@ public class JsonDataController {
 			 insurerDAO.deleteInsurer(id);
 			 str = "redirect:/adminArea/insurersManagement";
 			 break;
+		case "carbrand" :
+	         carBrandDAO.delete(id);
+	         str = "redirect:/adminArea/carBrand";
+	         break;
+		case "carmodel" :
+	         carModelDAO.delete(id);
+	         str = "redirect:/adminArea/carBrand";
+	         break;
+		
 		
 		}
 		return str;

@@ -146,8 +146,53 @@ $(function(){
 		});
 	}
 	
+	var $carbrandtable = $('#carBrandTable');
+	if($carbrandtable.length){
+		
+		console.log('inside v');
+		
+		var carbrandjsonURL = window.contextRoot + '/json/data/all/carBrand';
+		
+		
+		$carbrandtable.DataTable({
+			ajax: {
+				url : carbrandjsonURL,
+				dataSrc:''
+			 
+			},
+			columns: [
+				{
+					data : 'id'
+				},
+				{
+					data : 'name'
+				},
+				{
+					data : 'active'
+				},
+				{
+					data : 'id',
+				   mRender:function(data, type, row){
+					var tablename = 'carbrand';
+					var str = '';
+				    str += '<a href="'+window.contextRoot+'/json/data/'+data+'/'+tablename+'/delete " onclick="return getConfirmation()" style="width : 25%" class="btn btn-outline-primary btn-xs" title="Delete"><i class="fa fa-times" style="color:red; font-size: 18px; " aria-hidden="true"></i></a> &#160 ' ;
+					str += '<a href="'+window.contextRoot+'/adminArea/carBrand/?id='+data+'" style="width : 25%" class="btn btn-outline-primary btn-xs" title="Update"><i class="fa fa-sliders" style="color:blue; font-size: 18px;" aria-hidden="true"></i></a> &#160';
+					str += '<a href="'+window.contextRoot+'/adminArea/carModel?brandId='+data+'" style="width : 25%" class="btn btn-outline-primary btn-xs" title="List of Models"><i class="fa fa-list" style="color:blue; font-size: 18px;" aria-hidden="true"></i></a>';
+
+                    return str;
+				}
+				
+				}
+		
+				
+			
+				
+				
+			]
+		});
+	}
 	
-	
+
 	 
 
 	});

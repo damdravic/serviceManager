@@ -1,6 +1,7 @@
 package ddv.com.serviceManager.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -16,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ddv.com.serviceManagerBackEnd.dao.CarBrandDAO;
 import ddv.com.serviceManagerBackEnd.dao.CarDAO;
+import ddv.com.serviceManagerBackEnd.dao.CarModelDAO;
 import ddv.com.serviceManagerBackEnd.dao.InsurerDAO;
 import ddv.com.serviceManagerBackEnd.dao.UserDAO;
 import ddv.com.serviceManagerBackEnd.dao.WorkshopDAO;
 import ddv.com.serviceManagerBackEnd.dto.Car;
+import ddv.com.serviceManagerBackEnd.dto.CarBrand;
+import ddv.com.serviceManagerBackEnd.dto.CarModel;
 import ddv.com.serviceManagerBackEnd.dto.Insurer;
 import ddv.com.serviceManagerBackEnd.dto.User;
 import ddv.com.serviceManagerBackEnd.dto.Workshop;
@@ -37,6 +42,11 @@ public class ManagementController {
 	private UserDAO userDAO;
 	@Autowired
 	private InsurerDAO insurerDAO;
+	@Autowired
+	private CarBrandDAO carBrandDAO;
+	@Autowired
+	private CarModelDAO carModelDAO;
+
 
 	private static final Logger logger = LoggerFactory.getLogger(ManagementController.class);
 
@@ -67,20 +77,23 @@ public class ManagementController {
 	}
 
 	@RequestMapping(value = "/cars", method = RequestMethod.POST)
-	public String handelCarSibmission(@Valid @ModelAttribute("car") Car mCar, BindingResult results, Model model,@RequestParam(name="requestFromNewCase",required = false ) String requestFromNewCase)
+	public String handelCarSibmission(@Valid @ModelAttribute("car") Car mCar, BindingResult results, Model model,
+			@RequestParam(name="requestFromNewCase",required = false ) String requestFromNewCase,
+			@RequestParam(required=false) String licencePlate)
 			throws SQLException {
 		if (results.hasErrors()) {
 
 			model.addAttribute("userClickManageCars", true);
 			model.addAttribute("title", "Cars Management");
 			model.addAttribute("message", "Oooops!Something goes wrong....The car is not loaded");
+			//model.addAttribute("carLicencePlate",carLicencePlate);
 			return "basepage";
 		}
 
 		logger.info(mCar.toString());
 		carDAO.add(mCar);
         if(requestFromNewCase.equals("newCase")) {
-        	return "redirect:/adminArea/addNewCase";}
+        	return "redirect:/adminArea/addNewCase?carLicencePlate="+licencePlate;}
         else {
 		return "redirect:/adminArea/cars?operation=car";}
 	}
@@ -241,7 +254,97 @@ public class ManagementController {
 		
 	}
 		
+   
+	@RequestMapping(value = "/carBrand")
+	public ModelAndView carBrand(@RequestParam(value="id",required = false) String id) {
+		 ModelAndView mav = new ModelAndView("basepage");
+		 
+		 mav.addObject("title","Cars brand Manager");
+		 mav.addObject("carbrandrequest",true);
+		 
+		 if(id != null) {
+				CarBrand carBrand = carBrandDAO.getBrands(Integer.valueOf(id));
+				mav.addObject("carBrand",carBrand);
+				mav.addObject("id",id);
+				return mav;
+			}
+		 CarBrand carBrand = new CarBrand();
+		 mav.addObject("carBrand",carBrand);
+		 
+		 return mav;
+	}
+	@RequestMapping(value="/carBrand",method=RequestMethod.POST)
+	public String addindUpdatingBrand(@Valid @ModelAttribute("carBrand") CarBrand carBrand,BindingResult bindingResult,Model model) {
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("carbrandrequest",true);
+			model.addAttribute("title","Cars brand Manager");
+			return "basepage";
+		}
+		
+		
+		
+		
+		carBrandDAO.update(carBrand);
+		return "redirect:/adminArea/carBrand";
 
+	
+	}
+	@RequestMapping(value = "/carModel")
+	public ModelAndView carModel(@RequestParam(value="id",required = false) String id,
+			                     @RequestParam(value="brandId",required = false) String brandId) {
+		                         ModelAndView mav = new ModelAndView("basepage");
+		 
+		 //adding or update model
+		 if(id != null) {
+			 mav.addObject("title","Cars Model Manager");
+			 mav.addObject("carmodelrequest",true);
+			 //get model by id to fillform insertForm
+				CarModel carModel = carModelDAO.getModel(Integer.valueOf(id));
+				mav.addObject("carModel",carModel);
+				
+				
+				mav.addObject("brandId",brandId);
+				mav.addObject("id",id);
+				return mav;
+		 }
+        
+//request from brand with brandId to dispaly models list
+		 mav.addObject("title","Cars Model Manager");
+		 mav.addObject("carmodelrequest",true);
+		
+		 //carModel object for ModelAttribute in insertForm
+		 CarModel carModel = new CarModel();
+		 mav.addObject("carModel",carModel);
+		 
+		 //get carbrand Name 
+		 mav.addObject("brandName",carBrandDAO.getBrands(Integer.valueOf(brandId)).getName());
+		 
+		 
+		 //list of models
+		 int intbrandId = Integer.valueOf(brandId);
+	     List<CarModel> carModels = carModelDAO.listByBrand(intbrandId);
+         mav.addObject("carModels",carModels);
+		
+
+		 
+		 return mav;
+	}
+	@RequestMapping(value="/carModelUpdate",method=RequestMethod.POST)
+	public String addindUpdatingBrand(@Valid @ModelAttribute("carModel") CarModel carModel,BindingResult bindingResult,Model model,
+			@RequestParam (value="brandId",required = false) String brandId ){
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("carmodelrequest",true);
+			model.addAttribute("title","Cars model Manager");
+			return "basepage";
+		}
+		
+		CarBrand carBrand = carBrandDAO.getBrands(Integer.valueOf(brandId));
+		carModel.setCarbrand(carBrand);
+       	carModelDAO.saveOrUpdate(carModel);
+		return "redirect:/adminArea/carBrand";
+
+	
+	}
 	
 	
 
