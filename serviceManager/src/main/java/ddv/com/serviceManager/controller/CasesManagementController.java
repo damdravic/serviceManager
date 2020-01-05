@@ -1,6 +1,7 @@
 package ddv.com.serviceManager.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import ddv.com.serviceManagerBackEnd.dao.CarBrandDAO;
 import ddv.com.serviceManagerBackEnd.dao.CarDAO;
 import ddv.com.serviceManagerBackEnd.dao.InsurerDAO;
 import ddv.com.serviceManagerBackEnd.dao.ServiceCaseDAO;
 import ddv.com.serviceManagerBackEnd.dao.WorkshopDAO;
 import ddv.com.serviceManagerBackEnd.dto.Car;
+import ddv.com.serviceManagerBackEnd.dto.CarBrand;
 import ddv.com.serviceManagerBackEnd.dto.ServiceCase;
 
 @Controller
@@ -38,6 +41,8 @@ public class CasesManagementController {
 	private InsurerDAO insurerDAO;
 	@Autowired
 	private CarDAO carDAO;
+	@Autowired
+	private CarBrandDAO carBrandDAO;
 	
 	private static final Logger logger = LoggerFactory.getLogger(ManagementController.class);
 	
@@ -49,6 +54,11 @@ public class CasesManagementController {
 		
 		
 		ServiceCase scase = new ServiceCase();
+		
+		//create list of brands for select options
+		List<CarBrand> carBrands= carBrandDAO.list();
+		mv.addObject("carBrands",carBrands);
+
 		
 		//List of workshop for select section
 		mv.addObject("listOfWorkshop",workshopDAO.list());

@@ -16,6 +16,7 @@ import ddv.com.serviceManagerBackEnd.dao.UserDAO;
 import ddv.com.serviceManagerBackEnd.dao.WorkshopDAO;
 import ddv.com.serviceManagerBackEnd.dto.Car;
 import ddv.com.serviceManagerBackEnd.dto.CarBrand;
+import ddv.com.serviceManagerBackEnd.dto.CarModel;
 import ddv.com.serviceManagerBackEnd.dto.Insurer;
 import ddv.com.serviceManagerBackEnd.dto.User;
 import ddv.com.serviceManagerBackEnd.dto.Workshop;
@@ -69,6 +70,12 @@ public class JsonDataController {
 	@ResponseBody
 	public List<CarBrand> getAllBrands(){
 		return carBrandDAO.list();
+	}
+	 
+	@RequestMapping("all/models/{id}")
+	@ResponseBody
+	public List<CarModel> getModelsByBrandId(@PathVariable("id") int id ){
+		return carModelDAO.listByBrand(id);
 	}
 	 
 	

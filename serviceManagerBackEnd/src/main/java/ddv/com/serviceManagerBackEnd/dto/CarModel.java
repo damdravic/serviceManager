@@ -25,7 +25,7 @@ public class CarModel {
 	@Column(name="car_model_active")
 	private Boolean active;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name= "car_model_brand")
 	private CarBrand carbrand;
 

@@ -53,30 +53,49 @@
 									placeholder="Enter Licence plate" />
 								<sf:errors path="licencePlate"
 									cssClass="form-text text-muted help-block" element="em" />
-								<!--  <em id="passwordHelpBlock" class="form-text text-muted">
-                                                   Please enter a valid licence plate</em> -->
+								  <em id="passwordHelpBlock" class="form-text text-muted">
+                                                   Enter a Licence plate (if is not create it)</em> 
 							</div>
 						</div>
-
+                    
+                       
 						<div class="form-group row">
 							<label for="brand" class="col-sm-3 col-form-label text-dark">Brand</label>
-							<div class="col-sm-9">
-								<sf:input type="text" class="form-control text-capitalize"
-									path="brand" id="brand" placeholder="Car Brand" />
+							<div class="col-sm-6">
+								<sf:select class="form-control" path="brand"  id="selectBrand"  >
+								    <sf:option value="" selected="selected"  ><em>Insert brand of car</em></sf:option>
+								<c:forEach items="${carBrands}" var="carBrand" >
+								   <sf:option value="${carBrand.id}" >${carBrand.name}</sf:option>
+								</c:forEach>
+								</sf:select>
 								<em id="passwordHelpBlock" class="form-text text-muted">
-									Please enter a car brand</em>
+									Enter brand (if is not create it --> )</em>
+							</div>
+							<div class="col-md-3">
+							<button type="button" class="btn btn-primary " >  Create Brand </button>
 							</div>
 						</div>
 
 						<div class="form-group row">
 							<label for="model" class="col-sm-3 col-form-label text-dark">Model</label>
-							<div class="col-sm-9">
-								<sf:input type="text" class="form-control text-capitalize"
-									id="model" path="model" placeholder="Model" />
+							<div class="col-sm-6">
+								<sf:select type="text" class="form-control" id="selectModel" path="model" >
+								   <sf:option value="" selected="selected" ><em>Insert brand of model</em></sf:option>
+								</sf:select>
 								<em id="passwordHelpBlock" class="form-text text-muted">
-									Please enter a car model</em>
+									Enter model (if is not create it --> )</em>
+							</div>
+							<div class="col-md-3">
+							<button type="button" class="btn btn-primary " >  Create Model </button>
 							</div>
 						</div>
+						
+						
+						
+						
+						
+							
+					
 
                         <div class="form-group row">
 							<label for="model" class="col-sm-3 col-form-label text-dark">Owner</label>
@@ -86,14 +105,15 @@
 								<em id="passwordHelpBlock" class="form-text text-muted">
 									Please enter owner name</em>
 							</div>
-						</div>
+							</div>
+							
+					
 
 
 						<div class="form-group row">
-							<label for="model" class="col-sm-8 col-form-label text-dark">Create
-								this car in database</label>
-							<div class="col-sm-4">
-								<button type="submit" class="btn btn-primary">Create
+							
+							<div class="col-sm-12">
+								<button type="submit" class="btn btn-block btn-primary">Create
 									this car</button>
 							</div>
 						</div>
@@ -122,3 +142,39 @@
 
 
 </div>
+<script>
+$(document).ready(function(){
+	console.log("este");
+	});
+</script>
+
+<script>
+$(document).ready(function(){
+ $("#selectBrand").change(function(){
+	 var brandId = $(this).val();
+	 var ajaxURLformodels = window.contextRoot + '/json/data/all/models/'+brandId;
+	 console.log(ajaxURLformodels);
+	 $.ajax({
+		 type:'GET',
+		 url:ajaxURLformodels,
+		 success:function(data){
+			 var selectModel = $('#selectModel'), option="";
+			
+			 
+			 for(var i=0;i<data.length;i++){
+				 option = option + "<option value='" + data[i].id + "'>"+ data[i].name +"</option>";
+			 }
+			 
+			 selectModel.append(option);
+			 
+		 },
+		 error:function(){
+			 alert("error");
+		 }
+	 
+	 });
+ 
+ });
+
+});
+</script>

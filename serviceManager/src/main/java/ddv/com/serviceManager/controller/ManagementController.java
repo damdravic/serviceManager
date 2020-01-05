@@ -62,6 +62,10 @@ public class ManagementController {
 		ModelAndView mv = new ModelAndView("basepage");
 		mv.addObject("userClickManageCars", true);
 		mv.addObject("title", "Cars Management");
+		
+		//create list of brands for select options
+		List<CarBrand> carBrands= carBrandDAO.list();
+		mv.addObject("carBrands",carBrands);
 
 		Car nCar = new Car();
 
